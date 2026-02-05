@@ -1,0 +1,27 @@
+Corn–Goose–Fox problem solved by breadth-first search (BFS)
+
+Step 0: START
+LEFT: Farmer, Fox, Goose, Corn  | RIGHT: 
+
+Step 1: Farmer takes goose
+LEFT: Fox, Corn                 | RIGHT: Farmer, Goose
+
+Step 2: Farmer crosses alone
+LEFT: Farmer, Fox, Corn         | RIGHT: Goose
+
+Step 3: Farmer takes fox
+LEFT: Corn                      | RIGHT: Farmer, Fox, Goose
+
+Step 4: Farmer takes goose
+LEFT: Farmer, Goose, Corn       | RIGHT: Fox
+
+Step 5: Farmer takes corn
+LEFT: Goose                     | RIGHT: Farmer, Fox, Corn
+
+Step 6: Farmer crosses alone
+LEFT: Farmer, Goose             | RIGHT: Fox, Corn
+
+Step 7: Farmer takes goose
+LEFT:                           | RIGHT: Farmer, Fox, Goose, Corn
+
+Total moves: 7
