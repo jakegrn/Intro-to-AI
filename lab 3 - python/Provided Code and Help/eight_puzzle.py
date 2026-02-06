@@ -74,8 +74,8 @@ class PuzzleState:
         return self.grid == goal.grid
 
     def one_line(self) -> str:
-        parts = [(" " if v == 0 else str(v)) for v in self.grid]
-        return " ".join(parts)
+        parts = [(" " if v == 0 else str(v)) for v in self.grid] # ["8","7","6","5","4","3","2","1"," "]
+        return " ".join(parts) # string representation of grid -> 8 7 6 5 4 3 2 1
 
     def pretty_lines(self) -> List[str]:
         out = []
@@ -95,4 +95,26 @@ def heuristic(state: PuzzleState, goal: PuzzleState) -> int:
       - Implement a heuristic such as Manhattan distance.
       - Return an integer estimate of distance-to-goal.
     """
+
+    for initial_index, number in enumerate(state):
+        goal_index = goal.index(number)
+
+
+        # https://www.almabetter.com/bytes/tutorials/artificial-intelligence/8-puzzle-problem-in-ai
+
+    
+
+
     raise NotImplementedError
+
+'''
+
+top: [0,1,2]
+middle: [3,4,5]
+bottom: [6,7,8]
+
+if (oldI MOD 3):
+
+is 1 then 
+
+'''
