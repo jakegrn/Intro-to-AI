@@ -19,7 +19,7 @@ class PuzzleState:
     def blank_index(self) -> int:
         return self.grid.index(0)
 
-    def legal_moves(self) -> List[str]:
+    def legal_moves(self) -> List[str]: # Implement this one
         """Return legal blank moves: 'U','D','L','R'.
 
         TODO (student):
@@ -94,27 +94,28 @@ def heuristic(state: PuzzleState, goal: PuzzleState) -> int:
     TODO (student):
       - Implement a heuristic such as Manhattan distance.
       - Return an integer estimate of distance-to-goal.
+
+      - Goal here is to return a single integer, but what?
+      - Sum of all distances in manhattan
+      - For each item in state tuple, find which index it belongs to in the goal state
+        and compare how far it is from current state.
     """
 
-    for initial_index, number in enumerate(state):
-        goal_index = goal.index(number)
+    euclidean_grid = [[0,0],[1,0],[2,0],
+                      [0,1],[1,1],[2,1],
+                      [0,2],[1,2],[2,2]]
+    
+    sum_of_distances = 0
 
+    for square, initial_index in enumerate(state.grid):
+        goal_index = goal.grid.index(square)
+
+        euclidean_state = euclidean_grid[initial_index]
+        euclidean_goal = euclidean_grid[goal_index]
+
+        x = abs(euclidean_goal[0] - euclidean_state[0]) # absolute distance of x and y
+        y = abs(euclidean_goal[1] - euclidean_state[1])
+        
+        sum_of_distances += (x + y)
 
         # https://www.almabetter.com/bytes/tutorials/artificial-intelligence/8-puzzle-problem-in-ai
-
-    
-
-
-    raise NotImplementedError
-
-'''
-
-top: [0,1,2]
-middle: [3,4,5]
-bottom: [6,7,8]
-
-if (oldI MOD 3):
-
-is 1 then 
-
-'''
