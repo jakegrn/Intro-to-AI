@@ -17,8 +17,7 @@ Both UCS and A* required only 30 moves to find the solution, however there are s
     d ) Nodes unexpanded: 47
     
 4 ) Compared to A* Algorithm:
-    a ) Solved in 3.6240 seconds.
+    a ) Solved in 0.2213 seconds.
     b ) Solved in 30 moves.
-    c ) Nodes expanded: 207344
-    d ) Nodes unexpanded: 408
-
+    c ) Nodes expanded: 18030
+    d ) Nodes unexpanded: 8235

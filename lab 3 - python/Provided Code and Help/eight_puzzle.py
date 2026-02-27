@@ -99,20 +99,22 @@ def heuristic(state: PuzzleState, goal: PuzzleState) -> int:
         and compare how far it is from current state.
     """
 
-    euclidean_grid = [[0,0],[1,0],[2,0],
-                      [0,1],[1,1],[2,1],
-                      [0,2],[1,2],[2,2]]
+    euclidean_grid = [(0,0),(1,0),(2,0),
+                      (0,1),(1,1),(2,1),
+                      (0,2),(1,2),(2,2)]
     
     sum_of_distances = 0
 
-    for square, initial_index in enumerate(state.grid):
+    for initial_index, square in enumerate(state.grid):
+        if square == 0: # skip blank
+            continue
         goal_index = goal.grid.index(square)
 
-        euclidean_state = euclidean_grid[initial_index]
-        euclidean_goal = euclidean_grid[goal_index]
+        x1, y1 = euclidean_grid[initial_index] # current position of square
+        x2, y2 = euclidean_grid[goal_index] # goal position of square
 
-        x = abs(euclidean_goal[0] - euclidean_state[0]) # absolute distance of x and y
-        y = abs(euclidean_goal[1] - euclidean_state[1])
+        x = abs(x2 - x1) # absolute distance of x and y
+        y = abs(y2 - y1)
         
         sum_of_distances += (x + y)
 
