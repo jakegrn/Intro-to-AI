@@ -30,14 +30,14 @@ class PuzzleState:
         blank_index = self.blank_index()
         legal_moves = []
 
-        if blank_index in [0, 1, 2]:  # blank in the top row
-            legal_moves.append('U')
-        if blank_index in [6, 7, 8]:  # blank in bottom row
+        if blank_index not in [0, 1, 2]:  # blank  not in the top row
             legal_moves.append('D')
-        if blank_index in [0, 3, 6]:  # blank in left column
-            legal_moves.append('L')
-        if blank_index in [2, 5, 8]:  # blank in right column
+        if blank_index not in [6, 7, 8]:  # blank in bottom row
+            legal_moves.append('U')
+        if blank_index not in [0, 3, 6]:  # blank in left column
             legal_moves.append('R')
+        if blank_index not in [2, 5, 8]:  # blank in right column
+            legal_moves.append('L')
 
         return legal_moves
     
@@ -61,12 +61,10 @@ class PuzzleState:
 
         # ^ dictionary to determine the index change based on the move taken
 
-        blank = self.blank_index()
         new_grid = list(self.grid) # cant update tuple - create new list
-        new_blank= blank + switch[move]
-
-        new_grid[blank] = new_grid[new_blank]
-        new_grid[new_blank] = 0
+        new_blank_index = self.blank_index() - switch[move]
+        
+        new_grid[self.blank_index()], new_grid[new_blank_index] = (new_grid[new_blank_index], new_grid[self.blank_index()])
         
         return PuzzleState(tuple(new_grid))
 
@@ -117,5 +115,7 @@ def heuristic(state: PuzzleState, goal: PuzzleState) -> int:
         y = abs(euclidean_goal[1] - euclidean_state[1])
         
         sum_of_distances += (x + y)
+
+    return sum_of_distances
 
         # https://www.almabetter.com/bytes/tutorials/artificial-intelligence/8-puzzle-problem-in-ai

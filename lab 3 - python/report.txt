@@ -1,0 +1,24 @@
+
+1 ) For finding which moves were available based on the position of the blank index, I went with the following approach:
+    a ) Create an empty list which will include all legal moves, for example: ['U','D','L','R']
+    b ) Keep 4 different if statements which will condition if blank index is placed on the outside squares of the 3x3 grid.
+        This makes sense because in theory, you cannot make a legal move right if the blank index is placed on left side of the outside grid.
+        Therefore if blank index is not placed on the left side of the grid, the corresponding move can be made legal.
+        This works for all sides of the grid, so if blank is centred in middle of grid, all possible moves can be made, else the move is not added to legal moves list.
+
+2 ) Manhattan search
+
+Both UCS and A* required only 30 moves to find the solution, however there are some differences.
+    
+3 ) First of all, lets consider UCS:
+    a ) Solved in 2.1600 seconds.
+    b ) Solved in 30 moves.
+    c ) Nodes expanded: 181393
+    d ) Nodes unexpanded: 47
+    
+4 ) Compared to A* Algorithm:
+    a ) Solved in 3.6240 seconds.
+    b ) Solved in 30 moves.
+    c ) Nodes expanded: 207344
+    d ) Nodes unexpanded: 408
+
