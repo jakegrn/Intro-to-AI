@@ -19,7 +19,7 @@ class PuzzleState:
     def blank_index(self) -> int:
         return self.grid.index(0)
 
-    def legal_moves(self) -> List[str]:
+    def legal_moves(self) -> List[str]: # Implement this one
         """Return legal blank moves: 'U','D','L','R'.
 
         TODO (student):
@@ -30,14 +30,14 @@ class PuzzleState:
         blank_index = self.blank_index()
         legal_moves = []
 
-        if blank_index in [0, 1, 2]:  # blank in the top row
-            legal_moves.append('U')
-        if blank_index in [6, 7, 8]:  # blank in bottom row
+        if blank_index not in [0, 1, 2]:  # blank  not in the top row
             legal_moves.append('D')
-        if blank_index in [0, 3, 6]:  # blank in left column
-            legal_moves.append('L')
-        if blank_index in [2, 5, 8]:  # blank in right column
+        if blank_index not in [6, 7, 8]:  # blank in bottom row
+            legal_moves.append('U')
+        if blank_index not in [0, 3, 6]:  # blank in left column
             legal_moves.append('R')
+        if blank_index not in [2, 5, 8]:  # blank in right column
+            legal_moves.append('L')
 
         return legal_moves
     
@@ -61,12 +61,10 @@ class PuzzleState:
 
         # ^ dictionary to determine the index change based on the move taken
 
-        blank = self.blank_index()
         new_grid = list(self.grid) # cant update tuple - create new list
-        new_blank= blank + switch[move]
-
-        new_grid[blank] = new_grid[new_blank]
-        new_grid[new_blank] = 0
+        new_blank_index = self.blank_index() - switch[move]
+        
+        new_grid[self.blank_index()], new_grid[new_blank_index] = (new_grid[new_blank_index], new_grid[self.blank_index()])
         
         return PuzzleState(tuple(new_grid))
 
@@ -74,8 +72,8 @@ class PuzzleState:
         return self.grid == goal.grid
 
     def one_line(self) -> str:
-        parts = [(" " if v == 0 else str(v)) for v in self.grid]
-        return " ".join(parts)
+        parts = [(" " if v == 0 else str(v)) for v in self.grid] # ["8","7","6","5","4","3","2","1"," "]
+        return " ".join(parts) # string representation of grid -> 8 7 6 5 4 3 2 1
 
     def pretty_lines(self) -> List[str]:
         out = []
@@ -94,5 +92,30 @@ def heuristic(state: PuzzleState, goal: PuzzleState) -> int:
     TODO (student):
       - Implement a heuristic such as Manhattan distance.
       - Return an integer estimate of distance-to-goal.
+
+      - Goal here is to return a single integer, but what?
+      - Sum of all distances in manhattan
+      - For each item in state tuple, find which index it belongs to in the goal state
+        and compare how far it is from current state.
     """
-    raise NotImplementedError
+
+    euclidean_grid = [[0,0],[1,0],[2,0],
+                      [0,1],[1,1],[2,1],
+                      [0,2],[1,2],[2,2]]
+    
+    sum_of_distances = 0
+
+    for square, initial_index in enumerate(state.grid):
+        goal_index = goal.grid.index(square)
+
+        euclidean_state = euclidean_grid[initial_index]
+        euclidean_goal = euclidean_grid[goal_index]
+
+        x = abs(euclidean_goal[0] - euclidean_state[0]) # absolute distance of x and y
+        y = abs(euclidean_goal[1] - euclidean_state[1])
+        
+        sum_of_distances += (x + y)
+
+    return sum_of_distances
+
+        # https://www.almabetter.com/bytes/tutorials/artificial-intelligence/8-puzzle-problem-in-ai
