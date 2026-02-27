@@ -29,28 +29,20 @@ class AlphaBetaAI:
         - Generate legal moves and recurse.
         - Update alpha/beta and prune when possible.
         """
-
-        """ This uses alpha beta pruning. This is an in order binary tree traversal, which
-            takes in the state, player type, alpha and beta integers.
-            If node is terminal, return score evaluation (+1,0,-1)
-            Else
-            For each possible move:
-                
-            
-
-        """
         
-        """Return the minimax value of `state` for `player` using alpha-beta pruning."""
+        # Return the minimax value of state for player using Alpha-Beta pruning
+
+        # Safety check to check for infinite recursion. Game should never reach this depth in reality
 
         if depth > 10:
-            raise RuntimeError("Maximum recursion depth exceeded.")
+            raise RuntimeError("Maximum recursion depth exceeded.") 
         
         if state.is_terminal():
             return state.outcome_value()
             
         next_player = state.next_player
 
-        if next_player == player:  # max
+        if next_player == player:  # maximiser (AI player)
             value = -2
             for move in state.legal_moves():
                 child = state.apply(move)
@@ -61,7 +53,7 @@ class AlphaBetaAI:
                     break
             return value
             
-        else:  # min
+        else:  # minimiser (AI opponent)
             value = 2
             for move in state.legal_moves():
                 child = state.apply(move)
@@ -70,9 +62,7 @@ class AlphaBetaAI:
                 beta = min(beta, value)
                 if alpha >= beta:
                     break
-            return value
-        #raise NotImplementedError("Student must implement alphabeta_value().")
-        
+            return value        
 
     def best_move_alphabeta(self, state: TicTacToe, player: Player) -> Optional[Move]:
         """Return the best move for `player` from `state` using alpha-beta pruning.
@@ -82,38 +72,37 @@ class AlphaBetaAI:
         - Track and return the move with the best score
         """
 
-        """Return the best move for `player` from `state` using alpha-beta pruning."""
+        # Return the best move for player from state after using Alpha-Beta pruning
         
-        alpha, beta = -2, 2
-        best_move: Optional[Move] = None
-        best_val = -2 if state.next_player == player else 2
+        alpha = -2
+        beta = 2
+        best_move = None
+
+        if state.next_player == player:
+            best_val = -2 
+        else:
+            best_val = 2
+
         for move in state.legal_moves():
-            child = state.apply(move)
-            val = self.alphabeta_value(child, player, alpha, beta)
+            child_state = state.apply(move)
+            val = self.alphabeta_value(child_state, player, alpha, beta)
 
             if state.next_player == player:  # maximizer (AI's turn)
                 if val > best_val:
                     best_val = val
                     best_move = move
                     alpha = max(alpha, best_val)
+
             else:  # minimizer (opponent's turn)
                 if val < best_val:
                     best_val = val
                     best_move = move
                     beta = min(beta, best_val)
 
-            if alpha >= beta:
+            if alpha >= beta: # pruning condition
                 break
 
         return best_move
     
     def choose_move(self, state: TicTacToe) -> Move:
-        if state.is_terminal():
-            raise ValueError("Game is already over.")
-        if state.next_player != self.ai_player:
-            raise ValueError("It is not the AI's turn.")
-
-        move = self.best_move_alphabeta(state, self.ai_player)
-        if move is None:
-            raise ValueError("No legal moves available.")
-        return move
+        return self.best_move_alphabeta(state, self.ai_player)

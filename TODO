@@ -1,0 +1,3 @@
+- Implement timer for each move and calculate average time taken to choose each move depending on:
+    - Alpha-beta pruning
+    - Minimax algorithm

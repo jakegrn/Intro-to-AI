@@ -6,6 +6,7 @@ from tictactoe import TicTacToe
 from ai_minimax import MinimaxAI
 from ai_alphabeta_stub import AlphaBetaAI
 import benchmark as bm
+from benchmark import time_ai
 
 # For the lab, you will switch to:
 # from ai_alphabeta_stub import AlphaBetaAI
@@ -31,7 +32,7 @@ def main() -> None:
     state = TicTacToe.new()
 
     # AI plays X, human plays O
-    # ai = MinimaxAI(ai_player="X")
+    ai = MinimaxAI(ai_player="X")
     ab = AlphaBetaAI(ai_player="X")
     human = "O"
 
@@ -47,12 +48,14 @@ def main() -> None:
             mv = prompt_move(state)
             state = state.apply(mv)
         else:
-            mv = ab.choose_move(state)
-            print(f"AI plays: {mv}")
-            state = state.apply(mv)
-            
 
-        
+            """ mv_ai = ai.best_move_alphabeta(state, ai.ai_player)
+            print(f"Minimax AI plays: {mv_ai}") """
+
+            mv_ab = ab.best_move_alphabeta(state, ab.ai_player)
+            print(f"Alpha-beta AI plays: {mv_ab}")
+
+            state = state.apply(mv_ab)  # Change approach from Minimax to Alpha-Beta instead
 
     print(state.render())
     w = state.winner()
@@ -60,6 +63,17 @@ def main() -> None:
         print("\nResult: Draw.")
     else:
         print(f"\nResult: {w} wins.")
+
+
+    print("\nAI benchmarking:")
+
+    # Benchmark Minimax AI
+    print(f"\nBenchmarking Minimax AI: {time_ai(ai,10):.6f} seconds per move")
+
+    # Benchmark Alpha-Beta AI
+    print(f"\nBenchmarking Alpha-Beta AI: {time_ai(ab,10):.6f} seconds per move")
+
+    # Results can be found in README.md
 
 
 if __name__ == "__main__":
