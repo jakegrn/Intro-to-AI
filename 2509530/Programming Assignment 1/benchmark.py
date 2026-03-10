@@ -7,7 +7,7 @@ from ai_minimax import MinimaxAI
 from ai_alphabeta_stub import AlphaBetaAI
 
 
-def time_ai(ai, n: int = 200) -> float:
+def time_ai(ai, n: int = 1) -> float:
     """Average time per move (seconds) from the initial position.
 
     For a fair comparison we time `choose_move()` repeatedly from the same state.
